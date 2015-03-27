@@ -10,7 +10,7 @@ public class User {
 	private String email;
 	private Date birth;
 	private String gender;
-	
+	private int avatar;
 	
 	
 	public String getUsername() {
@@ -50,6 +50,12 @@ public class User {
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	public int getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(int avatar) {
+		this.avatar = avatar;
 	}
 	
 	
