@@ -5,7 +5,7 @@ public class Photo {
 	private String photoid;
 	private String username;
 	private String file;
-	private String name;
+	private String title;
 	private String description;
 	private long last_modified;
 	private long crationTimestamp;
@@ -28,11 +28,12 @@ public class Photo {
 	public void setFile(String file) {
 		this.file = file;
 	}
-	public String getName() {
-		return name;
+
+	public String getTitle() {
+		return title;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getDescription() {
 		return description;
