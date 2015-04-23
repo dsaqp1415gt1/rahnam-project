@@ -23,7 +23,6 @@ create table user_roles (
 create table photos (
 	photoid					varchar(50) not null primary key,
 	username 				varchar (20) not null,
-	file 					varchar (100) unique,
 	title 					varchar (20),
 	description 			varchar (500),
 	last_modified			timestamp default current_timestamp on update current_timestamp,
@@ -57,8 +56,8 @@ create table comments (
 
 
 create table usersfollows (
-	username varchar (50) not null,
-	followed varchar (50) not null,
+	username 		varchar (50) not null,
+	followed 		varchar (50) not null,
 	primary key (followed, username),
 	foreign key (followed) references users(username),
 	foreign key  (username) references users(username)

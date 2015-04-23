@@ -6,12 +6,11 @@ public class User {
 	
 	private String username;
 	private String userpass;
-	private String user;
+	private String name;
+	private int avatar;
 	private String email;
 	private Date birth;
 	private String gender;
-	private int avatar;
-	
 	
 	public String getUsername() {
 		return username;
@@ -25,11 +24,17 @@ public class User {
 	public void setUserpass(String userpass) {
 		this.userpass = userpass;
 	}
-	public String getUser() {
-		return user;
+	public String getName() {
+		return name;
 	}
-	public void setUser(String user) {
-		this.user = user;
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(int avatar) {
+		this.avatar = avatar;
 	}
 	public String getEmail() {
 		return email;
@@ -37,8 +42,6 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-
 	public Date getBirth() {
 		return birth;
 	}
@@ -51,14 +54,5 @@ public class User {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public int getAvatar() {
-		return avatar;
-	}
-	public void setAvatar(int avatar) {
-		this.avatar = avatar;
-	}
-	
-	
-	
 
 }

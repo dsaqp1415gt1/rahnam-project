@@ -4,11 +4,12 @@ public class Photo {
 	
 	private String photoid;
 	private String username;
-	private String file;
 	private String title;
 	private String description;
 	private long last_modified;
 	private long crationTimestamp;
+	private String filename;
+	private String photoURL;
 	
 	public String getPhotoid() {
 		return photoid;
@@ -22,13 +23,6 @@ public class Photo {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getFile() {
-		return file;
-	}
-	public void setFile(String file) {
-		this.file = file;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -53,7 +47,20 @@ public class Photo {
 	public void setCrationTimestamp(long crationTimestamp) {
 		this.crationTimestamp = crationTimestamp;
 	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public String getPhotoURL() {
+		return photoURL;
+	}
+	public void setPhotoURL(String photoURL) {
+		this.photoURL = photoURL;
+	}
 
+	
 	
 	
 	
