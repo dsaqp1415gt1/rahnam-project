@@ -11,7 +11,15 @@ public class User {
 	private String email;
 	private Date birth;
 	private String gender;
+	private boolean loginSuccessful;
 	
+
+	public boolean isLoginSuccessful() {
+		return loginSuccessful;
+	}
+	public void setLoginSuccessful(boolean loginSuccessful) {
+		this.loginSuccessful = loginSuccessful;
+	}
 	public String getUsername() {
 		return username;
 	}
