@@ -165,8 +165,8 @@ public class UserResource {
 					user.setUsername(rs.getString("username"));
 					if (pass)
 						user.setUserpass(rs.getString("userpass"));
-						user.setName(rs.getString("name"));
-						user.setGender(rs.getString("gender"));
+					user.setName(rs.getString("name"));
+					user.setGender(rs.getString("gender"));
 				} else
 					throw new NotFoundException(username + " not found.");
 			} catch (SQLException e) {
@@ -180,9 +180,6 @@ public class UserResource {
 				} catch (SQLException e) {
 				}
 			}
-	 
-		
-		user.setUserpass(null);
 		return user;
 	}
 	
