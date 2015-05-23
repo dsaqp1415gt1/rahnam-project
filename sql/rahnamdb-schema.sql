@@ -1,6 +1,5 @@
 drop database if exists rahnamdb;
 create database rahnamdb;
-
 use rahnamdb;
 
 create table users (
