@@ -43,8 +43,8 @@ public class UserResource {
 	//Crear Usario
 	
 	@POST
-	@Consumes(MediaType.RAHNAM_API_USER)
-	@Produces(MediaType.RAHNAM_API_USER)
+	@Consumes(MediaType2.RAHNAM_API_USER)
+	@Produces(MediaType2.RAHNAM_API_USER)
 	public User createUser(User user) {
 		
 		validateUser(user);
@@ -114,20 +114,18 @@ public class UserResource {
 			}
 	
 	private void validateUser(User user) {
-		if (user.getUsername() == null)
-			throw new BadRequestException("Username cannot be null.");
-		if (user.getUserpass() == null)
-			throw new BadRequestException("Password cannot be null.");
-		if (user.getName() == null)
-			throw new BadRequestException("Name cannot be null.");
-		if (user.getGender() == null)
-		throw new BadRequestException("Gender cannot be null.");
+		if ((user.getUsername() == null)||(user.getUsername().length() > 20))
+			throw new BadRequestException("Username cannot be null or greater than 20 characters");
+		if ((user.getUserpass() == null)||(user.getUserpass().length() > 80))
+			throw new BadRequestException("Userpass null. Otherwise try a shorter password");
+		if ((user.getGender() == null)||(user.getGender().length() > 20))
+			throw new BadRequestException("Gender cannot be null or greater than 20 characters");
 	}
 	
 	@Path("/login")
 	@POST
-	@Produces(MediaType.RAHNAM_API_USER)
-	@Consumes(MediaType.RAHNAM_API_USER)
+	@Produces(MediaType2.RAHNAM_API_USER)
+	@Consumes(MediaType2.RAHNAM_API_USER)
 	public User login(User user) {
 		if (user.getUsername() == null || user.getUserpass() == null)
 			throw new BadRequestException(
