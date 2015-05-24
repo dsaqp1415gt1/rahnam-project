@@ -1,6 +1,38 @@
 package edu.upc.eetac.dsa.csanchez.rahnam.api.model;
 
+import java.util.List;
+
+import javax.ws.rs.core.Link;
+import javax.ws.rs.core.MediaType;
+
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
+import org.glassfish.jersey.linking.InjectLinks;
+import org.glassfish.jersey.linking.InjectLink.Style;
+
+import edu.upc.eetac.dsa.csanchez.rahnam.api.MediaType2;
+import edu.upc.eetac.dsa.csanchez.rahnam.api.PhotoResource;
+import edu.upc.eetac.dsa.csanchez.rahnam.api.UserResource;
+
+
 public class Photo {
+	@InjectLinks({
+		@InjectLink(resource=PhotoResource.class, style = Style.ABSOLUTE, rel="photos", title="photo collection", type = MediaType.MULTIPART_FORM_DATA),
+		@InjectLink(resource = PhotoResource.class, style = Style.ABSOLUTE, rel = "photoscol", title = "Latest photos", type = MediaType2.RAHNAM_API_PHOTO_COLLECTION),
+		@InjectLink(resource = PhotoResource.class, style = Style.ABSOLUTE, rel = "coments", title = "Coments", type = MediaType2.RAHNAM_API_COMMENT_COLLECTION, method = "getComments", bindings = @Binding(name = "photoid", value = "${instance.photoid}")),
+		@InjectLink(resource = UserResource.class, style = Style.ABSOLUTE, rel = "user", title = "PhotoAuthor", type = MediaType2.RAHNAM_API_USER, method = "getUser", bindings = @Binding(name = "username", value = "${instance.username}")),
+		@InjectLink(resource = PhotoResource.class, style = Style.ABSOLUTE, rel = "self", title = "Photo", type = MediaType2.RAHNAM_API_PHOTO, method = "getPhoto", bindings = @Binding(name = "photoid", value = "${instance.photoid}")) })
+	
+	
+	private List<Link> links;
+
+	public List<Link> getLinks() {
+		return links;
+	}
+
+	public void setLinks(List<Link> links) {
+		this.links = links;
+	}
 	
 	private String photoid;
 	private String username;

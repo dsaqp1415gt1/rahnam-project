@@ -140,9 +140,9 @@ public class PhotoResource {
 	
 	
 	@GET
-	@Path("/photo/{idphoto}")
+	@Path("/photo/{photoid}")
 	@Produces(MediaType2.RAHNAM_API_PHOTO)
-	public Photo getPhoto(@PathParam("idphoto") String photoid) {
+	public Photo getPhoto(@PathParam("photoid") String photoid) {
 		Photo photo = new Photo();
 
 		Connection conn = null;
@@ -413,7 +413,7 @@ public class PhotoResource {
 	@GET
 	@Path("/photo/{photoid}/comments")
 	@Produces(MediaType2.RAHNAM_API_COMMENT_COLLECTION)
-	public CommentCollection getCommentCollectionByIdPhoto(@PathParam("photoid") String photoid){
+	public CommentCollection getComments(@PathParam("photoid") String photoid){
 		
 		CommentCollection comments = new CommentCollection();
 		
@@ -546,11 +546,10 @@ public class PhotoResource {
 	
 	
 	@PUT
-	@Path("/photo/{photoid}/comments/{commentid}")
+	@Path("/photo/comments/{commentid}")
 	@Consumes(MediaType2.RAHNAM_API_COMMENT)
 	@Produces(MediaType2.RAHNAM_API_COMMENT)
-	public Comment updateComment (@PathParam("photoid") String photoid,
-			@PathParam("commentid") String commentid, Comment comment){
+	public Comment updateComment (@PathParam("commentid") String commentid, Comment comment){
 
 		//validateUser(commentid);
 		Connection conn = null;

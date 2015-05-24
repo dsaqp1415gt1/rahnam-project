@@ -1,6 +1,38 @@
 package edu.upc.eetac.dsa.csanchez.rahnam.api.model;
 
+import java.util.List;
+
+import javax.ws.rs.core.Link;
+import javax.ws.rs.core.MediaType;
+
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
+import org.glassfish.jersey.linking.InjectLinks;
+import org.glassfish.jersey.linking.InjectLink.Style;
+
+import edu.upc.eetac.dsa.csanchez.rahnam.api.MediaType2;
+import edu.upc.eetac.dsa.csanchez.rahnam.api.PhotoResource;
+import edu.upc.eetac.dsa.csanchez.rahnam.api.UserResource;
+
+
 public class Comment {
+	
+	@InjectLinks({
+		@InjectLink(resource = PhotoResource.class, style = Style.ABSOLUTE, rel ="comments", title="comments list", type=MediaType2.RAHNAM_API_COMMENT ),
+		@InjectLink(resource = PhotoResource.class, style = Style.ABSOLUTE, rel ="photo", title="coment's photo", type=MediaType2.RAHNAM_API_PHOTO, method = "getComments", bindings=@Binding(name ="photoid", value="${instance.photoid}")),
+		@InjectLink(resource = PhotoResource.class, style = Style.ABSOLUTE, rel ="self", title="self comment", type=MediaType2.RAHNAM_API_COMMENT, method="getComment", bindings=@Binding(name ="commentid", value="${instance.commentid}")),
+		@InjectLink(resource = UserResource.class, style = Style.ABSOLUTE, rel ="user", title="coment's user", type=MediaType2.RAHNAM_API_USER, method="getUser", bindings=@Binding(name ="username", value="${instance.username}"))
+		})
+	
+	private List<Link> links; //lista de atributos
+	 
+	public List<Link> getLinks() {
+		return links;
+	}
+ 
+	public void setLinks(List<Link> links) {
+		this.links = links;
+	}
 	
 	private int commentid;
 	private String username;
