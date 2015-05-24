@@ -15,7 +15,7 @@ public class WebApplicationExceptionMapper implements
 		RahnamError error = new RahnamError(
 				exception.getResponse().getStatus(), exception.getMessage());
 		return Response.status(error.getStatus()).entity(error)
-				.type(MediaType.RAHNAM_API_ERROR).build();
+				.type(MediaType2.RAHNAM_API_ERROR).build();
 	}
  
 }

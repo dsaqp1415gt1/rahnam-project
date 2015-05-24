@@ -8,28 +8,37 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.sql.DataSource;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import edu.upc.eetac.dsa.csanchez.rahnam.api.DataSourceSPA;
+import edu.upc.eetac.dsa.csanchez.rahnam.api.model.Comment;
+import edu.upc.eetac.dsa.csanchez.rahnam.api.model.CommentCollection;
 import edu.upc.eetac.dsa.csanchez.rahnam.api.model.Photo;
 import edu.upc.eetac.dsa.csanchez.rahnam.api.model.PhotoCollection;
 
@@ -40,14 +49,18 @@ public class PhotoResource {
 
 	@Context
 	private Application app;
+	private SecurityContext security;
 	
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType2.RAHNAM_API_PHOTO)
 	public Photo uploadImage(@FormDataParam("username") String username,
 			@FormDataParam("title") String title,
 			@FormDataParam("description") String description,
 			@FormDataParam("image") InputStream image,
 			@FormDataParam("image") FormDataContentDisposition fileDisposition) {
+		
+		validatePhoto(username,title,description);
 		
 		UUID uuid = writeAndConvertImage(image);
 		
@@ -91,8 +104,14 @@ public class PhotoResource {
 		return imageData;
 	}
 	
-	
-	
+	private void validatePhoto(String username, String title, String description) {
+		if ((username == null)||(username.length() > 20))
+			throw new BadRequestException("username can't be null o greater than 20 characters");
+		if ((title == null)||(title.length() > 20))
+			throw new BadRequestException("username can't be null o greater than 20 characters");
+		if ((description== null)||(description.length() > 20))
+			throw new BadRequestException("description can't be null o greater than 500 characters");
+	}
 	
 	private UUID writeAndConvertImage(InputStream file) {
 
@@ -122,6 +141,7 @@ public class PhotoResource {
 	
 	@GET
 	@Path("/photo/{idphoto}")
+	@Produces(MediaType2.RAHNAM_API_PHOTO)
 	public Photo getPhoto(@PathParam("idphoto") String photoid) {
 		Photo photo = new Photo();
 
@@ -145,7 +165,7 @@ public class PhotoResource {
 				photo.setUsername(rs.getString("username"));
 				photo.setTitle(rs.getString("title"));
 				photo.setDescription(rs.getString("description"));
-				photo.setCrationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
+				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
 				photo.setFilename(photo.getPhotoid());
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
@@ -169,6 +189,7 @@ public class PhotoResource {
 	
 	@GET
 	@Path("/user/{username}")
+	@Produces(MediaType2.RAHNAM_API_PHOTO_COLLECTION)
 	public PhotoCollection getPhotosByUser(@PathParam("username") String username) {
 		PhotoCollection images = new PhotoCollection();
 
@@ -193,7 +214,7 @@ public class PhotoResource {
 				photo.setUsername(rs.getString("username"));
 				photo.setTitle(rs.getString("title"));
 				photo.setDescription(rs.getString("description"));
-				photo.setCrationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
+				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
 				photo.setFilename(photo.getPhotoid());
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
@@ -218,6 +239,7 @@ public class PhotoResource {
 	
 	@GET
 	@Path("/category/{category}")
+	@Produces(MediaType2.RAHNAM_API_PHOTO_COLLECTION)
 	public PhotoCollection getPhotosByCategory(@PathParam("category") String category) {
 		PhotoCollection images = new PhotoCollection();
 
@@ -244,7 +266,7 @@ public class PhotoResource {
 				photo.setUsername(rs.getString("username"));
 				photo.setTitle(rs.getString("title"));
 				photo.setDescription(rs.getString("description"));
-				photo.setCrationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
+				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
 				photo.setFilename(photo.getPhotoid());
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
@@ -267,6 +289,7 @@ public class PhotoResource {
 	
 	@GET
 	@Path("/title/{title}")
+	@Produces(MediaType2.RAHNAM_API_PHOTO_COLLECTION)
 	public PhotoCollection getPhotosByTitle(@PathParam("title") String title) {
 		PhotoCollection images = new PhotoCollection();
 
@@ -291,7 +314,7 @@ public class PhotoResource {
 				photo.setUsername(rs.getString("username"));
 				photo.setTitle(rs.getString("title"));
 				photo.setDescription(rs.getString("description"));
-				photo.setCrationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
+				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
 				photo.setFilename(photo.getPhotoid());
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
@@ -313,6 +336,8 @@ public class PhotoResource {
 	
 	@DELETE
 	public void deletePhoto(@QueryParam("photoid") String photoid){
+		
+		//validateUser(photoid);
 		
 		Connection conn = null;
 		try {
@@ -342,8 +367,254 @@ public class PhotoResource {
 	}
 	
 	
+	private void validateUser(String photoid) {
+	    Photo photo = getPhoto(photoid);
+	    String username = photo.getUsername();
+		if (!security.getUserPrincipal().getName().equals(username))
+			throw new ForbiddenException("Can't touch this nanananan can't touch this photo");
+	}
+	
+	@PUT
+	@Consumes(MediaType2.RAHNAM_API_PHOTO)
+	@Produces(MediaType2.RAHNAM_API_PHOTO)
+	public Photo updatePhoto (@QueryParam("photoid") String photoid, Photo photo){
+
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		PreparedStatement stmt = null;
+		try {
+			stmt = conn.prepareStatement("update photos set title=ifnull(?,title), "
+					+ "description=ifnull(?,description) where photoid = ?");
+			
+			stmt.setString(1, photo.getTitle());
+			stmt.setString(2, photo.getDescription());
+			stmt.setString(3, photoid);
+			int rows = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+		return photo;
+	}
+	
+	@GET
+	@Path("/photo/{photoid}/comments")
+	@Produces(MediaType2.RAHNAM_API_COMMENT_COLLECTION)
+	public CommentCollection getCommentCollectionByIdPhoto(@PathParam("photoid") String photoid){
+		
+		CommentCollection comments = new CommentCollection();
+		
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+		PreparedStatement stmt = null;
+		try{
+			stmt = conn.prepareStatement("select * from comments where photoid = ?");
+			stmt.setString(1, photoid);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				Comment comment = new Comment();
+				comment.setCommentid(rs.getInt("commentid"));
+				comment.setUsername(rs.getString("username"));
+				comment.setPhotoid(rs.getString("photoid"));
+				comment.setLast_modified(rs.getTimestamp("last_modified").getTime());
+				comment.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
+				comment.setContent(rs.getString("content"));	
+				comments.addComment(comment);
+			}
+			
+		}catch (SQLException e) {
+				throw new ServerErrorException(e.getMessage(),
+						Response.Status.INTERNAL_SERVER_ERROR);
+			} finally {
+				try {
+					if (stmt != null)
+						stmt.close();
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		return comments;
+	}
 	
 	
+	@GET
+	@Produces(MediaType2.RAHNAM_API_COMMENT)
+	public Comment getComment(int commentid){
+		
+		Comment comment = new Comment();
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		PreparedStatement stmt = null;
+		try {
+			stmt = conn.prepareStatement("select * from comments where commentid = ?");
+			stmt.setInt(1, commentid);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				comment.setCommentid(rs.getInt("commentid"));
+				comment.setUsername(rs.getString("username"));
+				comment.setPhotoid(rs.getString("photoid"));
+				comment.setLast_modified(rs.getTimestamp("last_modified").getTime());
+				comment.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
+				comment.setContent(rs.getString("content"));
+			}else {
+				throw new NotFoundException("There's no comment with commentid = "
+						+ commentid);
+					}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+		return comment;
+	} 
+	
+	
+	
+	
+	@POST
+	@Path("/photo/{photoid}/comments")
+	@Consumes(MediaType2.RAHNAM_API_COMMENT)
+	@Produces(MediaType2.RAHNAM_API_COMMENT)
+	public Comment createComment(@PathParam("photoid") String photoid, Comment comment){
+
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	 
+
+		PreparedStatement stmt = null;
+		try {
+			stmt = conn.prepareStatement("insert into comments (username, photoid, content) values (?,?,?)",
+					Statement.RETURN_GENERATED_KEYS);
+			
+			stmt.setString(1, comment.getUsername());
+			stmt.setString(2, photoid);
+			stmt.setString(3, comment.getContent());
+			stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next()) {
+				int commentid = rs.getInt(1);
+				comment = getComment(commentid);
+			} else {
+				// Something has failed...
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+		
+		return comment;
+	}
+	
+	
+	@PUT
+	@Path("/photo/{photoid}/comments/{commentid}")
+	@Consumes(MediaType2.RAHNAM_API_COMMENT)
+	@Produces(MediaType2.RAHNAM_API_COMMENT)
+	public Comment updateComment (@PathParam("photoid") String photoid,
+			@PathParam("commentid") String commentid, Comment comment){
+
+		//validateUser(commentid);
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	 
+		PreparedStatement stmt = null;
+		try {
+			stmt = conn.prepareStatement("update comments set content=ifnull(?,content) where commentid = ?");
+			stmt.setString(1, comment.getContent());
+			stmt.setInt(2, Integer.valueOf(commentid));
+			int rows = stmt.executeUpdate();
+			if (rows == 1)
+				comment = getComment(Integer.valueOf(commentid));
+			else {
+				;// Updating inexistent comment
+			}
+	 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+		return comment;
+	}
+	
+	@DELETE
+	@Path("/photo/comments/{commentid}")
+	public void deleteComment (@PathParam("commentid") String commentid){
+
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	 
+		PreparedStatement stmt = null;
+		try {
+			stmt = conn.prepareStatement("delete from comments where commentid = ?");
+			stmt.setInt(1, Integer.valueOf(commentid));
+	 
+			int rows = stmt.executeUpdate();
+			if (rows == 0)
+				;// Deleting inexistent comment
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}	
+	}
 	
 	
 	

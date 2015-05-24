@@ -7,7 +7,7 @@ public class Photo {
 	private String title;
 	private String description;
 	private long last_modified;
-	private long crationTimestamp;
+	private long creationTimestamp;
 	private String filename;
 	private String photoURL;
 	
@@ -41,11 +41,11 @@ public class Photo {
 	public void setLast_modified(long last_modified) {
 		this.last_modified = last_modified;
 	}
-	public long getCrationTimestamp() {
-		return crationTimestamp;
+	public long getCreationTimestamp() {
+		return creationTimestamp;
 	}
-	public void setCrationTimestamp(long crationTimestamp) {
-		this.crationTimestamp = crationTimestamp;
+	public void setCreationTimestamp(long creationTimestamp) {
+		this.creationTimestamp = creationTimestamp;
 	}
 	public String getFilename() {
 		return filename;
