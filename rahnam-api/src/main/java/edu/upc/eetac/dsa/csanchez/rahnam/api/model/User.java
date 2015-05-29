@@ -1,8 +1,34 @@
 package edu.upc.eetac.dsa.csanchez.rahnam.api.model;
 
 import java.util.Date;
+import java.util.List;
+
+import javax.ws.rs.core.Link;
+import javax.ws.rs.core.MediaType;
+
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
+import org.glassfish.jersey.linking.InjectLinks;
+import org.glassfish.jersey.linking.InjectLink.Style;
+
+import edu.upc.eetac.dsa.csanchez.rahnam.api.MediaType2;
+import edu.upc.eetac.dsa.csanchez.rahnam.api.PhotoResource;
 
 public class User {
+	
+	@InjectLinks({
+		@InjectLink(resource=PhotoResource.class, style = Style.ABSOLUTE, rel="photos", title="photo collection", type = MediaType.MULTIPART_FORM_DATA),
+		@InjectLink(resource = PhotoResource.class, style = Style.ABSOLUTE, rel = "photoscol", title = "user's photos", type = MediaType2.RAHNAM_API_PHOTO_COLLECTION, method = "getPhotosByUser", bindings = @Binding(name = "username", value = "${instance.username}")),
+	})
+	private List<Link> links;
+
+	public List<Link> getLinks() {
+		return links;
+	}
+
+	public void setLinks(List<Link> links) {
+		this.links = links;
+	}
 	
 	private String username;
 	private String userpass;
@@ -11,7 +37,15 @@ public class User {
 	private String email;
 	private Date birth;
 	private String gender;
+	private boolean loginSuccessful;
 	
+
+	public boolean isLoginSuccessful() {
+		return loginSuccessful;
+	}
+	public void setLoginSuccessful(boolean loginSuccessful) {
+		this.loginSuccessful = loginSuccessful;
+	}
 	public String getUsername() {
 		return username;
 	}

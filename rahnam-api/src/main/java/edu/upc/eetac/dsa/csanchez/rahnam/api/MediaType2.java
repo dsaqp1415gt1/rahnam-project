@@ -1,6 +1,6 @@
 package edu.upc.eetac.dsa.csanchez.rahnam.api;
 
-public interface MediaType {
+public interface MediaType2 {
 	public final static String RAHNAM_API_ERROR = "application/vnd.dsa.rahnam.error+json";
 
 	public final static String RAHNAM_API_USER = "application/vnd.rahnam.api.user+json";
