@@ -1,9 +1,14 @@
 package edu.upc.eetac.dsa.dsaqp1415gt1.rahnam;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 
 
 public class RahnamMainActivity extends ActionBarActivity {
@@ -36,4 +41,28 @@ public class RahnamMainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+ /*   @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_rahnam_main);
+
+       /* stingsList = new ArrayList<Sting>();
+        adapter = new StingAdapter(this, stingsList);
+        setListAdapter(adapter);
+
+        SharedPreferences prefs = getSharedPreferences("rahnam-profile",
+                Context.MODE_PRIVATE);
+        final String username = prefs.getString("username", null);
+        final String userpass = prefs.getString("userpass", null);
+        Authenticator.setDefault(new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, userpass
+                        .toCharArray());
+            }
+        });
+        (new FetchStingsTask()).execute();
+    }*/
 }
