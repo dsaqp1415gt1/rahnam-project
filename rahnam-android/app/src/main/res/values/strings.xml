@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Rahnam</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="login_l_username">Nombre Usuario</string>
+    <string name="login_l_password">Contraseña</string>
+    <string name="login_l_signin">Entrar</string>
+    <string name="login_l_register">Regístrate en Rahnam!</string>
+
+
+</resources>
