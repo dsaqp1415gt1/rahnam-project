@@ -15,11 +15,22 @@ update users set avatar = 1 where username = 'pau';
 update users set avatar = 2 where username = 'cris';
 update users set avatar = 3 where username = 'ruben';
 
-insert into categories (name) values ('viajes');
-insert into categories (name) values ('deportes');
-insert into categories (name) values ('relax');
-insert into categories (name) values ('paisajes');
-insert into categories (name) values ('quedadas');
+insert into categories (name) values ('videojuegos');
+insert into categories (name) values ('Anime');
+insert into categories (name) values ('Alimentación');
+insert into categories (name) values ('Bebidas');
+insert into categories (name) values ('Arte');
+insert into categories (name) values ('Arquitectura');
+insert into categories (name) values ('Escalada');
+insert into categories (name) values ('Baseball');
+insert into categories (name) values ('Fútbol');
+insert into categories (name) values ('Coches y motos');
+insert into categories (name) values ('Moda');
+insert into categories (name) values ('Viajes');
+insert into categories (name) values ('Animales');
+insert into categories (name) values ('Naturaleza');
+insert into categories (name) values ('Fotografía');
+insert into categories (name) values ('Peinados y maquillaje');
 
 insert into photoscategories values ('1',1);
 insert into photoscategories values ('1',2);
