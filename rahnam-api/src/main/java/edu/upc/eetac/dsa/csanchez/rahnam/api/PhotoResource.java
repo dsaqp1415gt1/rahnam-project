@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -49,6 +50,8 @@ public class PhotoResource {
 
 	@Context
 	private Application app;
+	
+	@Context
 	private SecurityContext security;
 	
 	@POST
@@ -76,7 +79,8 @@ public class PhotoResource {
 			stmt = conn.prepareStatement("insert into photos (photoid, username, title, description) "
 					+ "values (?,?,?,?)");
 			stmt.setString(1, uuid.toString());
-			stmt.setString(2, username);
+			stmt.setString(2, security.getUserPrincipal().getName() );
+			//stmt.setString(2, username);
 			stmt.setString(3, title);
 			stmt.setString(4, description);
 			
@@ -94,7 +98,7 @@ public class PhotoResource {
 		}
 		Photo imageData = new Photo();
 
-		imageData.setUsername(username);
+		imageData.setUsername(security.getUserPrincipal().getName());
 		imageData.setTitle(title);
 		imageData.setDescription(description); 
 		imageData.setFilename(uuid.toString() + ".png");
@@ -135,10 +139,6 @@ public class PhotoResource {
 		return uuid;
 	}
 	
-	
-	
-	
-	
 	@GET
 	@Path("/photo/{photoid}")
 	@Produces(MediaType2.RAHNAM_API_PHOTO)
@@ -155,7 +155,7 @@ public class PhotoResource {
 
 		PreparedStatement stmt = null;
 		try {
-			stmt = conn.prepareStatement("select * from photos where photoid = ?");
+			stmt = conn.prepareStatement("select * from photos where photoid = ? order by creationTimestamp");
 			stmt.setString(1,photoid);
 			stmt.executeQuery();
 
@@ -184,8 +184,7 @@ public class PhotoResource {
 		}
 		return photo;
 	}
-	
-	
+		
 	
 	@GET
 	@Path("/user/{username}")
@@ -203,7 +202,7 @@ public class PhotoResource {
 
 		PreparedStatement stmt = null;
 		try {
-			stmt = conn.prepareStatement("select * from photos where username = ?");
+			stmt = conn.prepareStatement("select * from photos where username = ? order by creationTimestamp");
 			stmt.setString(1,username);
 			stmt.executeQuery();
 
@@ -235,8 +234,6 @@ public class PhotoResource {
 	}
 	
 	
-	
-	
 	@GET
 	@Path("/category/{category}")
 	@Produces(MediaType2.RAHNAM_API_PHOTO_COLLECTION)
@@ -255,7 +252,7 @@ public class PhotoResource {
 		try {
 			stmt = conn.prepareStatement("select * from photos where photoid IN "
 					+ "(select photoid from photoscategories where categoryid = "
-					+ "(select categoryid from categories where name = ?))");
+					+ "(select categoryid from categories where name = ?)) order by creationTimestamp");
 			stmt.setString(1,category);
 			stmt.executeQuery();
 
@@ -303,7 +300,7 @@ public class PhotoResource {
 		
 		PreparedStatement stmt = null;
 		try {
-			stmt = conn.prepareStatement("select * from photos where title like ?");
+			stmt = conn.prepareStatement("select * from photos where title like ? order by creationTimestamp");
 			stmt.setString(1, "%" + title + "%");
 			stmt.executeQuery();
 
@@ -337,7 +334,7 @@ public class PhotoResource {
 	@DELETE
 	public void deletePhoto(@QueryParam("photoid") String photoid){
 		
-		//validateUser(photoid);
+		validateUser(photoid);
 		
 		Connection conn = null;
 		try {
@@ -426,7 +423,7 @@ public class PhotoResource {
 		}
 		PreparedStatement stmt = null;
 		try{
-			stmt = conn.prepareStatement("select * from comments where photoid = ?");
+			stmt = conn.prepareStatement("select * from comments where photoid = ?  order by creationTimestamp");
 			stmt.setString(1, photoid);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -614,6 +611,85 @@ public class PhotoResource {
 			}
 		}	
 	}
+	
+	
+	private String GET_PHOTOS_BEFORE = "select * from photos where creationTimestamp < ifnull(?, now())  order by creationTimestamp desc limit ?";
+	private String GET_PHOTOS_AFTER = "select * from photos where creationTimestamp > ? order by creationTimestamp desc";
+	 
+	@GET
+	@Produces(MediaType2.RAHNAM_API_PHOTO_COLLECTION)
+	public PhotoCollection getPhotos(@QueryParam("length") int length,
+			@QueryParam("before") long before, @QueryParam("after") long after) {
+		PhotoCollection photos = new PhotoCollection();
+	 
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+	 
+		PreparedStatement stmt = null;
+		try {
+			boolean updateFromLast = after > 0;
+			stmt = updateFromLast ? conn
+					.prepareStatement(GET_PHOTOS_AFTER) : conn  
+					.prepareStatement(GET_PHOTOS_BEFORE);  
+			if (updateFromLast) { 
+				stmt.setTimestamp(1, new Timestamp(after));
+			} else {  
+				if (before > 0)
+					stmt.setTimestamp(1, new Timestamp(before));
+				else 
+					stmt.setTimestamp(1, null);
+				length = (length <= 0) ? 5 : length;
+				stmt.setInt(2, length);
+			}
+			ResultSet rs = stmt.executeQuery();
+			boolean first = true;
+			long oldestTimestamp = 0;
+			while (rs.next()) {
+				Photo photo = new Photo();
+				photo.setPhotoid(rs.getString("photoid") + ".png");
+				photo.setUsername(rs.getString("username"));
+				photo.setTitle(rs.getString("title"));
+				photo.setDescription(rs.getString("description"));
+				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
+				
+				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
+				photo.setFilename(photo.getPhotoid());
+				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
+				
+				oldestTimestamp = rs.getTimestamp("creationTimestamp").getTime();
+				if (first) {
+					first = false;
+					photos.setNewestTimestamp(photo.getCreationTimestamp());
+				}
+				photos.addPhoto(photo);
+			}
+			photos.setOldestTimestamp(oldestTimestamp);
+		} catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+	 
+		return photos;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

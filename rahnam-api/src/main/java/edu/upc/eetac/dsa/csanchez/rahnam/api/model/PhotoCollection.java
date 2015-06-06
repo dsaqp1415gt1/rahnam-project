@@ -6,6 +6,28 @@ import java.util.List;
 public class PhotoCollection {
 	
 	private List<Photo> photos;
+	
+	private long newestTimestamp;
+	private long oldestTimestamp;
+	
+	
+	
+
+	public long getNewestTimestamp() {
+		return newestTimestamp;
+	}
+
+	public void setNewestTimestamp(long newestTimestamp) {
+		this.newestTimestamp = newestTimestamp;
+	}
+
+	public long getOldestTimestamp() {
+		return oldestTimestamp;
+	}
+
+	public void setOldestTimestamp(long oldestTimestamp) {
+		this.oldestTimestamp = oldestTimestamp;
+	}
 
 	public PhotoCollection() {
 		super();
