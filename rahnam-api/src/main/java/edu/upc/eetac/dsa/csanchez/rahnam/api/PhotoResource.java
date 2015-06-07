@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -28,16 +30,20 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.ServerErrorException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.Response.Status;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import edu.upc.eetac.dsa.csanchez.rahnam.api.DataSourceSPA;
+import edu.upc.eetac.dsa.csanchez.rahnam.api.model.Category;
+import edu.upc.eetac.dsa.csanchez.rahnam.api.model.CategoryCollection;
 import edu.upc.eetac.dsa.csanchez.rahnam.api.model.Comment;
 import edu.upc.eetac.dsa.csanchez.rahnam.api.model.CommentCollection;
 import edu.upc.eetac.dsa.csanchez.rahnam.api.model.Photo;
@@ -60,6 +66,7 @@ public class PhotoResource {
 	public Photo uploadImage(@FormDataParam("username") String username,
 			@FormDataParam("title") String title,
 			@FormDataParam("description") String description,
+			@FormDataParam("category") String category,
 			@FormDataParam("image") InputStream image,
 			@FormDataParam("image") FormDataContentDisposition fileDisposition) {
 		
@@ -75,7 +82,10 @@ public class PhotoResource {
 					Response.Status.SERVICE_UNAVAILABLE);
 		}
 		PreparedStatement stmt = null;
+		PreparedStatement stmt2 = null;
 		try {
+			conn.setAutoCommit(false);
+			
 			stmt = conn.prepareStatement("insert into photos (photoid, username, title, description) "
 					+ "values (?,?,?,?)");
 			stmt.setString(1, uuid.toString());
@@ -83,8 +93,16 @@ public class PhotoResource {
 			//stmt.setString(2, username);
 			stmt.setString(3, title);
 			stmt.setString(4, description);
-			
 			stmt.executeUpdate();
+			
+			stmt2 = conn.prepareStatement("insert into photoscategories values (?,"
+					+ "(select categoryid from categories where name = ?))");
+			stmt2.setString(1, uuid.toString());
+			stmt2.setString(2, category);
+			stmt2.executeUpdate();
+			
+			conn.commit();
+			
 		} catch (SQLException e) {
 			throw new ServerErrorException(e.getMessage(),
 					Response.Status.INTERNAL_SERVER_ERROR);
@@ -92,19 +110,23 @@ public class PhotoResource {
 			try {
 				if (stmt != null)
 					stmt.close();
+				if (stmt2 != null)
+					stmt2.close();
 				conn.close();
 			} catch (SQLException e) {
 			}
 		}
 		Photo imageData = new Photo();
-
+		
+		imageData.setPhotoid(uuid.toString());
 		imageData.setUsername(security.getUserPrincipal().getName());
 		imageData.setTitle(title);
 		imageData.setDescription(description); 
 		imageData.setFilename(uuid.toString() + ".png");
 		imageData.setPhotoURL(app.getProperties().get("imgBaseURL")
 				+ imageData.getFilename());
-
+		imageData.setCategories(getCategories(uuid.toString()));
+		
 		return imageData;
 	}
 	
@@ -161,14 +183,16 @@ public class PhotoResource {
 
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
-				photo.setPhotoid(rs.getString("photoid") + ".png");
+				photo.setPhotoid(rs.getString("photoid"));
 				photo.setUsername(rs.getString("username"));
 				photo.setTitle(rs.getString("title"));
 				photo.setDescription(rs.getString("description"));
 				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
-				photo.setFilename(photo.getPhotoid());
+				photo.setFilename(rs.getString("photoid") + ".png");
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
+				
+				photo.setCategories(getCategories(photoid));
 				
 			}
 		} catch (SQLException e) {
@@ -184,6 +208,47 @@ public class PhotoResource {
 		}
 		return photo;
 	}
+	
+	
+	private List<Category> getCategories(String photoid) {
+		List<Category> cats = new ArrayList<Category>();
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+
+		PreparedStatement stmt = null;
+		try {
+			stmt = conn.prepareStatement("select * from categories where categoryid IN "
+					+ "(select categoryid from photoscategories where photoid = ?)");
+			stmt.setString(1, photoid);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Category cat = new Category();
+				cat.setCategoryid(rs.getInt("categoryid"));
+				cat.setName(rs.getString("name"));
+				cats.add(cat);
+			}
+		} catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+		return cats;
+
+	}
+	
+	
+	
 		
 	
 	@GET
@@ -209,14 +274,16 @@ public class PhotoResource {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				Photo photo = new Photo();
-				photo.setPhotoid(rs.getString("photoid") + ".png");
+				photo.setPhotoid(rs.getString("photoid"));
 				photo.setUsername(rs.getString("username"));
 				photo.setTitle(rs.getString("title"));
 				photo.setDescription(rs.getString("description"));
 				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
-				photo.setFilename(photo.getPhotoid());
+				photo.setFilename(rs.getString("photoid") + ".png");
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
+				
+				photo.setCategories(getCategories(photo.getPhotoid()));
 				images.addPhoto(photo);
 			}
 		} catch (SQLException e) {
@@ -259,14 +326,16 @@ public class PhotoResource {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				Photo photo = new Photo();
-				photo.setPhotoid(rs.getString("photoid") + ".png");
+				photo.setPhotoid(rs.getString("photoid"));
 				photo.setUsername(rs.getString("username"));
 				photo.setTitle(rs.getString("title"));
 				photo.setDescription(rs.getString("description"));
 				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
-				photo.setFilename(photo.getPhotoid());
+				photo.setFilename(rs.getString("photoid") + ".png");
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
+				
+				photo.setCategories(getCategories(photo.getPhotoid()));
 				images.addPhoto(photo);
 			}
 		} catch (SQLException e) {
@@ -307,14 +376,16 @@ public class PhotoResource {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				Photo photo = new Photo();
-				photo.setPhotoid(rs.getString("photoid") + ".png");
+				photo.setPhotoid(rs.getString("photoid"));
 				photo.setUsername(rs.getString("username"));
 				photo.setTitle(rs.getString("title"));
 				photo.setDescription(rs.getString("description"));
 				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
-				photo.setFilename(photo.getPhotoid());
+				photo.setFilename(rs.getString("photoid") + ".png");
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
+				
+				photo.setCategories(getCategories(photo.getPhotoid()));
 				images.addPhoto(photo);
 			}
 		} catch (SQLException e) {
@@ -384,7 +455,32 @@ public class PhotoResource {
 		}
 		
 		PreparedStatement stmt = null;
+		PreparedStatement stmtcats = null;
+		PreparedStatement stmtsicatexiste = null;
 		try {
+			// PRIMER MIRAR SI LA FOTO EXISTEIX!!!
+			
+			for (int i = 0; i< photo.getCategories().size(); i++){
+				
+				
+				stmtsicatexiste = conn.prepareStatement("select * from photoscategories where photoid = ? "
+						+ "and categoryid = (select categoryid from categories where name = ?)");
+				stmtsicatexiste.setString(1, photoid);
+				stmtsicatexiste.setString(2, photo.getCategories().get(i).getName());
+				ResultSet rs = stmtsicatexiste.executeQuery();
+				if (rs.next())
+					throw new WebApplicationException("Esta foto ya tiene la categoria"
+								+ photo.getCategories().get(i).getName(), Status.CONFLICT);
+				rs.close();
+				
+				
+				stmtcats = conn.prepareStatement("insert into photoscategories values "
+						+ "(?,(select categoryid from categories where name = ?))");
+				stmtcats.setString(1, photoid);
+				stmtcats.setString(2, photo.getCategories().get(i).getName());
+				stmtcats.executeUpdate();
+			}
+			
 			stmt = conn.prepareStatement("update photos set title=ifnull(?,title), "
 					+ "description=ifnull(?,description) where photoid = ?");
 			
@@ -393,6 +489,13 @@ public class PhotoResource {
 			stmt.setString(3, photoid);
 			int rows = stmt.executeUpdate();
 			
+
+			if (rows == 1)
+				photo = getPhoto(photoid);
+			else {
+				throw new NotFoundException("There's no photo with photoid = "
+						+ photoid);
+			}
 		} catch (SQLException e) {
 			throw new ServerErrorException(e.getMessage(),
 					Response.Status.INTERNAL_SERVER_ERROR);
@@ -651,15 +754,17 @@ public class PhotoResource {
 			long oldestTimestamp = 0;
 			while (rs.next()) {
 				Photo photo = new Photo();
-				photo.setPhotoid(rs.getString("photoid") + ".png");
+				
+				photo.setPhotoid(rs.getString("photoid"));
 				photo.setUsername(rs.getString("username"));
 				photo.setTitle(rs.getString("title"));
 				photo.setDescription(rs.getString("description"));
 				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
-				
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
-				photo.setFilename(photo.getPhotoid());
+				photo.setFilename(rs.getString("photoid") + ".png");
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
+				
+				photo.setCategories(getCategories(photo.getPhotoid()));
 				
 				oldestTimestamp = rs.getTimestamp("creationTimestamp").getTime();
 				if (first) {
