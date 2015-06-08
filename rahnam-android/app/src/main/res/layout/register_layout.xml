@@ -6,11 +6,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin">
+        android:layout_height="wrap_content">
 
 
         <TextView
@@ -56,6 +52,20 @@
 
             <EditText
                 android:id="@+id/reg_contraseña"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:password="true"
+                android:singleLine="true"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"/>
+
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="Repite la contraseña"/>
+
+            <EditText
+                android:id="@+id/reg_contraseñabis"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:password="true"

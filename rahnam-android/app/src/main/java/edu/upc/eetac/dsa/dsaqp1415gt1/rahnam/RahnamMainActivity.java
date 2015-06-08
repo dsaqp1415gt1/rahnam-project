@@ -1,14 +1,11 @@
 package edu.upc.eetac.dsa.dsaqp1415gt1.rahnam;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
+import android.view.View;
 
 
 public class RahnamMainActivity extends ActionBarActivity {
@@ -65,4 +62,30 @@ public class RahnamMainActivity extends ActionBarActivity {
         });
         (new FetchStingsTask()).execute();
     }*/
+
+    public void activarBusqueda(View v) {
+        Intent intent = new Intent(this, BusquedaActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void ActivarCamara(View v) {
+        Intent intent = new Intent(this, TomarFotoActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void ActivarPerfil(View v) {
+        Intent intent = new Intent(this, PerfilActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void SalirDeLaAplicacion(View v) {
+        //aqui tenemos que llamar al layout login
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }
