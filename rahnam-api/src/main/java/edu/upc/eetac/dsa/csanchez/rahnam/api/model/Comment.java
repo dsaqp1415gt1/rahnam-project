@@ -19,8 +19,7 @@ public class Comment {
 	
 	@InjectLinks({
 		@InjectLink(resource = PhotoResource.class, style = Style.ABSOLUTE, rel ="comments", title="comments list", type=MediaType2.RAHNAM_API_COMMENT ),
-		@InjectLink(resource = PhotoResource.class, style = Style.ABSOLUTE, rel ="photo", title="coment's photo", type=MediaType2.RAHNAM_API_PHOTO, method = "getComments", bindings=@Binding(name ="photoid", value="${instance.photoid}")),
-		@InjectLink(resource = PhotoResource.class, style = Style.ABSOLUTE, rel ="self", title="self comment", type=MediaType2.RAHNAM_API_COMMENT, method="getComment", bindings=@Binding(name ="commentid", value="${instance.commentid}")),
+		@InjectLink(resource = PhotoResource.class, style = Style.ABSOLUTE, rel ="photo", title="coment's photo", type=MediaType2.RAHNAM_API_PHOTO, method = "getPhoto", bindings=@Binding(name ="photoid", value="${instance.photoid}")),
 		@InjectLink(resource = UserResource.class, style = Style.ABSOLUTE, rel ="user", title="coment's user", type=MediaType2.RAHNAM_API_USER, method="getUser", bindings=@Binding(name ="username", value="${instance.username}"))
 		})
 	
