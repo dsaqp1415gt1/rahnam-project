@@ -89,8 +89,8 @@ public class PhotoResource {
 			stmt = conn.prepareStatement("insert into photos (photoid, username, title, description) "
 					+ "values (?,?,?,?)");
 			stmt.setString(1, uuid.toString());
-			stmt.setString(2, security.getUserPrincipal().getName() );
-			//stmt.setString(2, username);
+			//stmt.setString(2, security.getUserPrincipal().getName() );
+			stmt.setString(2, username);
 			stmt.setString(3, title);
 			stmt.setString(4, description);
 			stmt.executeUpdate();
@@ -119,7 +119,8 @@ public class PhotoResource {
 		Photo imageData = new Photo();
 		
 		imageData.setPhotoid(uuid.toString());
-		imageData.setUsername(security.getUserPrincipal().getName());
+		//imageData.setUsername(security.getUserPrincipal().getName());
+		imageData.setUsername(username);
 		imageData.setTitle(title);
 		imageData.setDescription(description); 
 		imageData.setFilename(uuid.toString() + ".png");
@@ -746,7 +747,7 @@ public class PhotoResource {
 					stmt.setTimestamp(1, new Timestamp(before));
 				else 
 					stmt.setTimestamp(1, null);
-				length = (length <= 0) ? 5 : length;
+				length = (length <= 0) ? 12 : length;
 				stmt.setInt(2, length);
 			}
 			ResultSet rs = stmt.executeQuery();

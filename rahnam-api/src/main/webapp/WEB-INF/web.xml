@@ -98,10 +98,6 @@
 		<http-method>PUT</http-method>
 		<http-method>DELETE</http-method>
 	</web-resource-collection>
-	<auth-constraint>
-		<role-name>registered</role-name>
-		<role-name>admin</role-name>
-	</auth-constraint>
 </security-constraint>
 
 <security-constraint>

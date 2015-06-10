@@ -10,6 +10,12 @@ insert into user_roles values ('ruben', 'registered');
 insert into photos (photoid, username) values ('1','pau');
 insert into photos (photoid, username) values ('2','cris');
 insert into photos (photoid, username) values ('3','ruben');
+insert into photos (photoid, username) values ('4','pau');
+insert into photos (photoid, username) values ('5','pau');
+insert into photos (photoid, username) values ('6','pau');
+insert into photos (photoid, username) values ('7','ruben');
+insert into photos (photoid, username) values ('8','pau');
+
 
 update users set avatar = 1 where username = 'pau';
 update users set avatar = 2 where username = 'cris';
@@ -37,6 +43,12 @@ insert into photoscategories values ('1',2);
 insert into photoscategories values ('2',3);
 insert into photoscategories values ('2',4);
 insert into photoscategories values ('3',5);
+insert into photoscategories values ('4',1);
+insert into photoscategories values ('5',1);
+insert into photoscategories values ('6',1);
+insert into photoscategories values ('7',1);
+insert into photoscategories values ('8',1);
+
 
 insert into comments (username, photoid, content) values ('pau','1','pau habla en foto pau');
 insert into comments (username, photoid, content) values ('cris','1','cris habla en foto pau');
