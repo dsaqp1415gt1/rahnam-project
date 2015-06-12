@@ -89,8 +89,8 @@ public class PhotoResource {
 			stmt = conn.prepareStatement("insert into photos (photoid, username, title, description) "
 					+ "values (?,?,?,?)");
 			stmt.setString(1, uuid.toString());
-			//stmt.setString(2, security.getUserPrincipal().getName() );
-			stmt.setString(2, username);
+			stmt.setString(2, security.getUserPrincipal().getName() );
+			//stmt.setString(2, username);
 			stmt.setString(3, title);
 			stmt.setString(4, description);
 			stmt.executeUpdate();
@@ -119,8 +119,8 @@ public class PhotoResource {
 		Photo imageData = new Photo();
 		
 		imageData.setPhotoid(uuid.toString());
-		//imageData.setUsername(security.getUserPrincipal().getName());
-		imageData.setUsername(username);
+		imageData.setUsername(security.getUserPrincipal().getName());
+		//imageData.setUsername(username);
 		imageData.setTitle(title);
 		imageData.setDescription(description); 
 		imageData.setFilename(uuid.toString() + ".png");
@@ -248,7 +248,46 @@ public class PhotoResource {
 
 	}
 	
-	
+	@GET
+	@Path("/categories")
+	@Produces(MediaType2.RAHNAM_API_CATEGORY_COLLECTION)
+	public CategoryCollection getCategoriesCollection(String nombre){
+		
+		CategoryCollection categories = new CategoryCollection();
+		
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+		PreparedStatement stmt = null;
+		try{
+			stmt = conn.prepareStatement("select * from categories");
+			//stmt.setString(1, nombre);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				Category category = new Category();
+				category.setCategoryid(rs.getInt("categoryid"));
+				category.setName(rs.getString("name"));
+				categories.addCategory(category);
+			}
+			
+		}catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+		}
+	}
+	return categories;
+	}
+
 	
 		
 	
@@ -619,7 +658,8 @@ public class PhotoResource {
 			stmt = conn.prepareStatement("insert into comments (username, photoid, content) values (?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			
-			stmt.setString(1, comment.getUsername());
+			stmt.setString(1, security.getUserPrincipal().getName());
+			//stmt.setString(1, comment.getUsername());
 			stmt.setString(2, photoid);
 			stmt.setString(3, comment.getContent());
 			stmt.executeUpdate();

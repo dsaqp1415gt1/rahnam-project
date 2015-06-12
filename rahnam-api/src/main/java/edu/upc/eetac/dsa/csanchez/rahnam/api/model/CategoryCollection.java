@@ -12,6 +12,10 @@ public class CategoryCollection {
 		super();
 		categories = new ArrayList<>();
 	}
+	
+	public void addCategories(Category category){
+		categories.add(category);
+	}
 
 	public List<Category> getCategories() {
 		return categories;
