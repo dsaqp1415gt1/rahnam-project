@@ -19,10 +19,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.codec.digest.DigestUtils;
+
 import edu.upc.eetac.dsa.csanchez.rahnam.api.model.User;
 
 @Path("/users")
@@ -30,8 +33,11 @@ public class UserResource {
 	
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();	
 	
-	//Crear Usario
+
+	@Context
+	private SecurityContext security;
 	
+
 	@POST
 	@Consumes(MediaType2.RAHNAM_API_USER)
 	@Produces(MediaType2.RAHNAM_API_USER)
@@ -117,8 +123,8 @@ public class UserResource {
 			throw new BadRequestException("Name cannot be null or greater than 20 characters");
 		if ((user.getEmail() == null)||(user.getEmail().length() > 20))
 			throw new BadRequestException("email cannot be null or greater than 20 characters");
-		if ((user.getGender() == null)||(user.getGender().length() > 20))
-			throw new BadRequestException("Gender cannot be null or greater than 20 characters");
+		if ((user.getGender() != null)&&(user.getGender().length() > 20))
+			throw new BadRequestException("Gender cannot be greater than 20 characters");
 	}
 	
 	
@@ -303,7 +309,7 @@ public class UserResource {
 			stmt.setString(2, user.getName());
 			stmt.setString(3, user.getEmail());
 			stmt.setString(4, user.getGender());
-			stmt.setString(5, username);
+			stmt.setString(5,security.getUserPrincipal().getName());
 	 
 			int rows = stmt.executeUpdate();
 			if (rows == 1)
@@ -329,13 +335,13 @@ public class UserResource {
 	}
 		
 	private void validateUpdateUser(User user) {
-		if ((user.getUserpass() == null) || (user.getUserpass().length() > 80))
+		if (user.getUserpass().length() > 80)
 			throw new BadRequestException("password can't be null or greater than 80 characters.");
-		if ((user.getName() == null || user.getName().length() > 20))
+		if (user.getName().length() > 20)
 			throw new BadRequestException("Name can't be null or greater than 100 characters.");
-		if ((user.getEmail() == null)||(user.getEmail().length() > 20))
+		if (user.getEmail().length() > 20)
 			throw new BadRequestException("email cannot be null or greater than 20 characters");
-		if ((user.getGender() == null)||(user.getGender().length() > 20))
+		if (user.getGender().length() > 20)
 			throw new BadRequestException("Gender cannot be null or greater than 20 characters");
 		
 	}
