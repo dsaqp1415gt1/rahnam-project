@@ -26,7 +26,7 @@ create table photos (
 	description 			varchar (500),
 	last_modified			timestamp default current_timestamp on update current_timestamp,
 	creationTimestamp 		datetime not null default current_timestamp,
-	foreign key (username) 	references users(username)
+	foreign key (username) 	references users(username) on delete cascade
 );
 
 create table categories (
@@ -58,13 +58,13 @@ create table usersfollows (
 	username 		varchar (50) not null,
 	followed 		varchar (50) not null,
 	primary key (followed, username),
-	foreign key (followed) references users(username),
-	foreign key  (username) references users(username)
+	foreign key (followed) references users(username) on delete cascade,
+	foreign key  (username) references users(username) on delete cascade
 );
 
 create table userscategories (
 	username 					varchar (50) not null,
 	categoryid 					int not null,
-	foreign key (username) 		references users(username),
+	foreign key (username) 		references users(username) on delete cascade,
 	foreign key (categoryid)	references categories(categoryid)
 );

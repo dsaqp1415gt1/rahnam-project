@@ -70,11 +70,17 @@ function getPhotosMain() {
 		var response = $.parseJSON(jqxhr.responseText);
 		$('.carousel-inner').empty();
 		$.each(response.photos, function(k,v){
-			
+			var title = "";
+			if (response.photos[k].title == undefined) {
+				title = "Sin título";
+			}
+			else {
+				title = response.photos[k].title;
+			}
 			
 			
 			var newimageblock = '<div class="col-md-3"><div class="img_block"><a href="single-photo.html?photoid='+response.photos[k].photoid+'">'+
-				'<img  class="img-responsive img-hover" src="'+response.photos[k].photoURL+'" alt=""></a><p class="p1">'+response.photos[k].title+'</p>'+
+				'<img  class="img-responsive img-hover" src="'+response.photos[k].photoURL+'" alt=""></a><p class="p1">'+title+'</p>'+
 				'<hr class="h0"><p class="p2">De: <a href="user.html?username='+response.photos[k].username+'">'+response.photos[k].username+'</a></p></div></div>';
 			
 			if (colcont <= 4){

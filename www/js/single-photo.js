@@ -104,10 +104,26 @@ function getPhoto() {
 	}).done(function(data, status, jqxhr) {
 
 		var photo = data;	
-		$('#title').append(photo.title + ':<small> subida por <a href="#">'+photo.username+'</a></small>');
+		var title = "";
+		if (photo.title == undefined){
+			title = "Sin título";
+		}
+		else {
+			title = photo.title;
+		}
+		
+		var description = "";
+		if(photo.description==undefined){
+			description="No hay descripción"; 
+		}
+		else{
+			description = photo.description;
+			}
+		
+		$('#title').append(title + ', <small> Subida por <a href="user.html?username='+photo.username+'">'+photo.username+'</a></small>');
 		$('#infophoto').append('<p><i class="fa fa-clock-o"></i> Subida en August 24, 2013 a las 9:00 PM</p>'+
 		'<hr><img class="img-responsive" src="' +photo.photoURL+ '" alt=""><hr>'+
-		'<p class="lead">Descripción: </p>'+'<p>'+photo.description+'</p>');
+		'<p class="lead">Descripción: </p>'+'<p>'+description+'</p>');
 		$('#bloqueautor').append('<a href="user.html?username='+photo.username+'"><h4>'+photo.username+'</h4></a><p>Clica en el nombre para ver más fotos</p>');
 		
 		

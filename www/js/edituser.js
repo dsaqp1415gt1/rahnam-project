@@ -47,25 +47,51 @@ $("#update").click(function(e) {
 
     var UpdateProfile = new Object();
 	
-	if($("#name").val() != "")
+	if($("#newname").val() != "")
 	{
-	UpdateProfile.name = $("#name").val();
+	UpdateProfile.name = $("#newname").val();
 	}
-	if($("#email").val() != "")
-	{
-	UpdateProfile.email = $("#email").val();
+	else{	
+	$('#newname').attr('placeholder','Inserte un nombre');		
 	}
-	if($("#sexo").val() != "")
+	if($("#newemail").val() != "")
 	{
-	UpdateProfile.gender = $("#sexo").val();
+	UpdateProfile.email = $("#newemail").val();
+	}
+	else{	
+	$('#newemail').attr('placeholder','Inserte un e-mail');		
+	}
+	if($("#newgender").val() != "")
+	{
+	UpdateProfile.gender = $("#newgender").val();
+	}
+	else{	
+	$('#newgender').attr('placeholder','Inserte su sexo');		
 	}	
 	if($("#newpass").val() != "")
 	{
 	UpdateProfile.userpass = $("#newpass").val();
-	}	
+	}
+	else{	
+	$('#newpass').attr('placeholder','Inserte una contraseña');		
+	}
 	
 	updateUserInfo(UpdateProfile);
 });
+
+function getUrlParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
+} 
 
 function getCategorias() {
 	var URL = API_BASE_URL + '/photos/categories';
@@ -106,10 +132,10 @@ function getProfile(USERNAME){
 				var user = data;	
 				
 				
-					$("#username2").text(""+user.username);		
-				
-					if(user.name != undefined)	{	
-					$("#name").text("Nombre: "+user.name);}
+					$("#username2").text(""+user.username);						
+					$("#inicio").text("Rellene los siguientes campos:");				
+					if(user.name != undefined)	{						
+					$("#name").text("Nombre: "+user.name);}					
 					if(user.email != undefined)	{	
 					$("#email").text("E-mail: "+user.email);}
 					else{
@@ -120,7 +146,7 @@ function getProfile(USERNAME){
 					else{
 					$("#sexo").text("Sexo: No especificado")}
 			
-					$("#newpass").text("Cambiar contraseña:");
+					$("#pass").text("Cambiar contraseña:");
 								
 				
 	})
@@ -168,7 +194,7 @@ function updateUserInfo(UpdateProfile) {
 
 	var url = API_BASE_URL + '/users/' + USERNAME;
 	
-	var data = JSON.stringify(UpdateProfile);
+	var data = JSON.stringify(USERNAME);
 
 
 	$.ajax({
@@ -183,7 +209,7 @@ function updateUserInfo(UpdateProfile) {
 		
 		}).done(function(data, status, jqxhr) {	
 	
-		window.location = "profile.html"
+		window.location.replace = "profile.html"
 				
 	}).fail(function() {
 
