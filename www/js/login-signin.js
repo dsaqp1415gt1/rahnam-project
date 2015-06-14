@@ -1,4 +1,4 @@
-var API_BASE_URL = "http://localhost:8080/rahnam-api";
+var API_BASE_URL = "http://147.83.7.158:8080/rahnam-api";
 
 var USERNAME = "pau";
 var PASSWORD = "pau";
