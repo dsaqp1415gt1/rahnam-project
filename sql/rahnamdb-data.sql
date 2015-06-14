@@ -9,12 +9,12 @@ insert into user_roles values ('ruben', 'registered');
 
 insert into photos (photoid, username, title, description) values ('1','pau', 'atardecer', 'maria maria');
 insert into photos (photoid, username, title, description) values ('2','cris', 'amanecer', 'pepipon');
-insert into photos (photoid, username, title, description) values ('3','ruben', 'anochecer', 'cardenton');
-insert into photos (photoid, username) values ('4','pau');
-insert into photos (photoid, username) values ('5','pau');
-insert into photos (photoid, username) values ('6','pau');
-insert into photos (photoid, username) values ('7','ruben');
-insert into photos (photoid, username) values ('8','pau');
+insert into photos (photoid, username, title, description) values ('3','ruben', 'hola', 'cardenton');
+insert into photos (photoid, username, title, description) values ('4','pau', 'qwd', 'maria maria');
+insert into photos (photoid, username, title, description) values ('5','pau', 'athrgj', 'maria maria');
+insert into photos (photoid, username, title, description) values ('6','pau', 'gg', 'maria maria');
+insert into photos (photoid, username, title, description) values ('7','ruben', 'wfeefwwe', 'maria maria');
+insert into photos (photoid, username, title, description) values ('8','pau', 'weweg', 'maria maria');
 
 
 update users set avatar = 1 where username = 'pau';

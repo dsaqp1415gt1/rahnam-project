@@ -291,8 +291,6 @@ public class PhotoResource {
 	}
 
 	
-		
-	
 	@GET
 	@Path("/user/{username}")
 	@Produces(MediaType2.RAHNAM_API_PHOTO_COLLECTION)
