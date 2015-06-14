@@ -11,11 +11,21 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/nombre"
+            android:gravity="right"
+            android:text="nombre"
+            android:textSize="15dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/desconectar"
             android:gravity="right"
             android:text="Salir"
             android:textSize="15dp"
-            android:onClick="SalirDeLaAplicacion"/>
+            android:onClick="SalirDeLaAplicacion"
+            android:layout_below="@+id/nombre"/>
 
         <TextView
             android:id="@+id/header"
@@ -25,29 +35,16 @@
             android:layout_centerHorizontal="true"
             android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editarPerfil"
-            android:gravity="left"
-            android:text="Edita configuración"
-            android:textSize="15dp"
-            android:onClick="EntrarEditarPerfil"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/header"/>
+            android:textStyle="bold"
+            android:onClick="vuelveAlMain"/>
 
         <ImageView
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_gravity="left"
+            android:src="@mipmap/ic_launcher"
             android:id="@+id/FotoPerfil"
-            android:layout_marginTop="30dp"
-            android:layout_below="@+id/editarPerfil"
-            android:layout_alignRight="@+id/editarPerfil"
-            android:layout_alignEnd="@+id/editarPerfil" />
+            android:layout_marginTop="30dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,21 +68,11 @@
             android:layout_alignParentEnd="true" />
 
         <ListView
-            android:id="@+id/list"
+            android:id="@+id/android:list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/BotonTomarFoto"
-            android:layout_above="@+id/BotonVolverInicio"/>
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Volver"
-            android:id="@+id/BotonVolverInicio"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_above="@+id/BotonBusqueda" />
 
         <Button
             android:layout_width="wrap_content"

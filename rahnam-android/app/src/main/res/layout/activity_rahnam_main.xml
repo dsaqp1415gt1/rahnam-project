@@ -37,14 +37,14 @@
             android:textStyle="bold" />
 
         <ListView
-            android:id="@+id/list"
+            android:id="@+id/android:list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="30dp"
             android:layout_below="@+id/header"
-            android:layout_above="@+id/BotonIrPerfil" />
+            android:layout_above="@+id/BotonIrPerfil"/>
 
         <Button
             android:layout_width="wrap_content"

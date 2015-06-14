@@ -62,7 +62,7 @@ public class CategoriasListActivity extends Activity {
         for (int i = 0; i < cntChoice; i++) {
 
             if (sparseBooleanArray.get(i)) {
-                selected += myList.getItemAtPosition(i).toString() + ", ";
+                selected += myList.getItemAtPosition(i).toString();
             }
         }
 

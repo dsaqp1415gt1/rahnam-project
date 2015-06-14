@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:scrollbarAlwaysDrawVerticalTrack="true">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -78,7 +79,8 @@
                 android:gravity="center"
                 android:text="@string/login_l_register"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#0b84aa" />
+                android:textColor="#0b84aa"
+                android:onClick="activarRegistrate"/>
         </LinearLayout>
     </RelativeLayout>
 

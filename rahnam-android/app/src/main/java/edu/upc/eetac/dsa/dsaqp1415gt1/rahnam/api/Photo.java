@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class Photo {
 
-    private String photoid;
+    private int photoid;
     private String username;
     private String title;
     private String description;
@@ -20,11 +20,11 @@ public class Photo {
     private Map<String, Link> links = new HashMap<String, Link>();
 
 
-    public String getPhotoid() {
+    public int getPhotoid() {
         return photoid;
     }
 
-    public void setPhotoid(String photoid) {
+    public void setPhotoid(int photoid) {
         this.photoid = photoid;
     }
 
