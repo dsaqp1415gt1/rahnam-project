@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Rahnam</title>
+    <link rel="shortcut icon" type="image/jpg" href="images/rahnam-logo.png" />
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/general.css" />
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body background-i>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="  background-color: #222; opacity: 0.9;">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <strong><a class="navbar-brand" href="maingallery.html" style="color:white; font-size: 20px">Rahnam</a></strong>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<form class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+					  <input id="searchtitle" type="text" class="form-control" placeholder="Search" style="height:25px; width:300px; border-radius:5px" >
+					</div>
+					<button type="submit" id= "button_searchtitle" class="btn btn-primary btn-sm" >
+						<span class="glyphicon glyphicon-search" style="vertical-align:middle"></span>
+					</button>
+					
+					
+					<button type="submit" class="btn btn-primary" style="width:43px; background-color:#000000; visibility: hidden">Go</button>
+				</form>
+                <ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categorías<b class="caret"></b></a>
+                        <ul id="menucats" class="dropdown-menu">
+
+                        </ul>
+                    </li>
+                    <li class="active">
+                        <a id="navnick" href="profile.html"></a>
+                    </li>
+                    <li>
+                        <a id="logout" href="#">Logout</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>                    
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+	
+    <!-- Page Content -->
+    <div class="container">   
+      
+		<div class="row">
+            <div class="col-lg-12">
+                <h1  id="title" class="page-header"></h1>
+			</div>
+		</div>
+		
+		<div class="row">
+            <div class="col-lg-8">
+				<div id="infophoto">
+                </div>
+
+                <hr>
+
+                <div id="comments">
+				</div>
+
+				<hr>
+
+                <div class="well">
+                    <h4>Escribe un comentario:</h4>
+                    <form role="form">
+                        <div class="form-group">
+                            <textarea id="newcomment" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button id="btn_post" type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                </div>
+				
+            </div>
+			
+			<div class="col-md-4">
+				<div  id="bloqueautor" class="well" style="background-color: #F2F2F2"></div>
+				
+				<div class="well" style="background-color: #F2F2F2">
+                    <h4>Categorias de la foto</h4>
+                    <div   class="row">
+                        <div id ="cats1" class="col-lg-6">
+                            <ul class="list-unstyled">
+                            </ul>
+                        </div>
+                        <div id ="cats2" class="col-lg-6">
+                            <ul class="list-unstyled">
+                            </ul>
+                        </div>
+						<div id ="cats3" class="col-lg-6">
+                            <ul class="list-unstyled"> 
+                            </ul>
+                        </div>
+						<div id ="cats4" class="col-lg-6">
+                            <ul class="list-unstyled">  
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			
+		</div>
+    </div>
+
+
+    <hr>
+
+
+
+	
+    <!-- /.container -->
+    <!-- jQuery -->
+	
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script src="js/js.cookie.js"></script>
+
+	<script src="js/single-photo.js"></script>
+
+	
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+@font-face {
+    font-family: "Arimo";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Arimo"), url("http://fonts.gstatic.com/s/arimo/v8/HNu4Nzh6q8Es60EMNZhs9w.woff2") format("woff2"), url("http://fonts.gstatic.com/s/arimo/v8/wZLYhRRxZWGToTRP78bqJQ.woff") format("woff");
+}
+@font-face {
+    font-family: "Arimo";
+    font-style: normal;
+    font-weight: 700;
+    src: local("Arimo Bold"), local("Arimo-Bold"), url("http://fonts.gstatic.com/s/arimo/v8/27rE5lMk9EHpLbxiIuGd0PesZW2xOQ-xsNqO47m55DA.woff2") format("woff2"), url("http://fonts.gstatic.com/s/arimo/v8/UnXpojilM3XslYxUnWuVe_esZW2xOQ-xsNqO47m55DA.woff") format("woff");
+}
+
+* {
+font-family: "Arimo",sans-serif;
+}
+
+body {
+	background-color: #f6f6f6;
+}
+
+
+.btn {
+	border-radius: 10px;
+}
+
+.panel-info {
+	box-shadow: 0px 0px 2px 1px #E95E40;
+	border-color: #333C3D;
+	opacity: 0.95;
+}
+
+.panel-info>.panel-heading {
+	background-color: #232728;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.panel-info>.panel-heading {
+	background-color: #232728;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+#row1 img {
+	border-top-left-radius: 10px; 
+	border-top-right-radius: 10px;
+}
+#row2 img {
+	border-top-left-radius: 10px; 
+	border-top-right-radius: 10px;
+}
+#row3 img {
+	border-top-left-radius: 10px; 
+	border-top-right-radius: 10px;
+}
+
+#resultphoto img{
+	border-top-left-radius: 10px; 
+	border-top-right-radius: 10px;
+}
+
+
+.img_block {
+	background: #FFF; 
+	border-radius: 10px;   
+	box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.22);
+}
+ 
+.p1 {
+	padding: 7px 0px 0px 0px;
+}
+.h0 {
+	margin: 0px 0px 0px 0px;
+}
+.p2 {
+	padding: 5px 30px 5px 30px;
+}
+
+#button_searchtitle {
+	background-color: #E95E40;
+	width:50px;
+	border-radius:10px; 
+	border-color: #2C565C
+}
+
+

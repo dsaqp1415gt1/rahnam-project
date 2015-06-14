@@ -248,6 +248,8 @@ public class PhotoResource {
 
 	}
 	
+	
+	
 	@GET
 	@Path("/categories")
 	@Produces(MediaType2.RAHNAM_API_CATEGORY_COLLECTION)

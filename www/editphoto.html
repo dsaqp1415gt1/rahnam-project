@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Rahnam</title>
+    <link rel="shortcut icon" type="image/jpg" href="images/rahnam-logo.png" />
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/general.css" />
+	<link rel="stylesheet" href="css/uploadphoto.css" />
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+	<body>
+	
+	<!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="  background-color: #222; opacity: 0.9;">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <strong><a class="navbar-brand" href="maingallery.html" style="color:white; font-size: 20px">Rahnam</a></strong>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<form class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+					  <input id="searchtitle" type="text" class="form-control" placeholder="Search" style="height:25px; width:300px; border-radius:5px" >
+					</div>
+					<button type="submit" id= "button_searchtitle" class="btn btn-primary btn-sm">
+						<span class="glyphicon glyphicon-search" style="vertical-align:middle"></span>
+					</button>
+					<button type="submit" class="btn btn-primary" style="width:43px; background-color:#000000; visibility: hidden">Go</button>
+				
+				</form>
+                <ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categorías<b class="caret"></b></a>
+                        <ul id="menucats" class="dropdown-menu">
+
+                        </ul>
+                    </li>
+                    <li class="active">
+                        <a id="navnick" href="profile.html"></a>
+                    </li>
+                    <li>
+                        <a id="logout" href="#">Logout</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>                    
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+	
+
+	<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4" >
+			<h2 class="page-header"><p style="font-weight: bold">Comparte una foto</p></h2>
+		</div>
+		<div class="col-md-4"></div>
+	</div>
+
+
+
+		<div class="container">
+		
+			<div id="loginbox" style="margin-top:20px;" class="mainbox col-md-6">                    
+				<div class="panel panel-info" >
+				
+					<div class="panel-heading">
+						<div class="panel-title">Detalles de la foto</div>
+					</div>   
+					
+					<div style="padding-top:30px" class="panel-body" >
+						<form  id="imageformunico" class="form-horizontal col-md-11" role="form" >
+								
+								<div class="form-group">
+								
+									<label for="inputUsername">Usuario</label>
+									<input readonly="readonly" name="username" type="text" id="username" class="form-control" placeholder="Enter username" required="required">
+								</div>
+								<div class="form-group">
+									<label for="inputTitle">Titulo</label>
+									<input name="title" type="text" id="title" class="form-control" placeholder="Pon el título de la foto" required="required">
+								</div>
+								<div class="form-group">
+									<label for="inputDescription">Descripcion</label>
+									<input name="description" type="text" id="description" class="form-control" placeholder="Pon la descripción de la foto" required="required">
+								</div>
+								<div class="form-group">
+									<label for="inputCategory">Categoria</label>
+									
+									<input list="new_photo_category" name="category" type="text" id="category" class="form-control" placeholder="Escoje una categoría" required="required">
+									<datalist id="new_photo_category">
+										
+
+									</datalist>
+								</div>
+								
+								<button id="editButton" type="submit" class="btn btn-default">Edita</button>
+								<progress style="display: none;"></progress>
+						</form>
+						
+					</div>
+				</div>
+			</div>
+			
+			<div style="margin-top:20px" id="resultphoto" class="col-md-6">
+			</div>
+
+		</div>
+
+			
+	</div>
+
+
+		
+	
+		<script src="js/jquery.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/js.cookie.js"></script>
+		
+		<script src="js/editphoto.js"></script> 	
+	</body>
+</html>

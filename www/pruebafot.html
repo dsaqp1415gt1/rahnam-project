@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Jersey Multipart Example</title>
+		<meta charset="UTF-8">
+		<meta name=description content="">
+		<meta name=viewport content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Bootstrap CSS -->
+		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<!-- Bootstrap theme -->
+    	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css" rel="stylesheet">
+    	<style type="text/css">
+			IMG.imgcenter{
+		    	display: block;
+		    	margin-left: auto;
+		    	margin-right: auto;
+		    	border:none;
+		    }
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1 class="text-center">Jersey Multipart Example</h1>
+		</div>
+
+		<div class="container">
+			<form  id="imageformunico" class="form-horizontal col-md-6" role="form" >
+					
+					
+					<div class="form-group">
+					<legend>Upload image</legend>
+						<label for="inputUsername">Usuario</label>
+						<input name="username" type="text" id="username" class="form-control" placeholder="Enter image title" required="required">
+					</div>
+					<div class="form-group">
+						<label for="inputTitle">Titulo</label>
+						<input name="title" type="text" id="title" class="form-control" placeholder="Enter image title" required="required">
+					</div>
+					<div class="form-group">
+						<label for="inputDescription">Descripcion</label>
+						<input name="description" type="text" id="description" class="form-control" placeholder="Enter image title" required="required">
+					</div>
+					<div class="form-group">
+						<label for="inputCategory">Categoria</label>
+						<input name="category" type="text" id="category" class="form-control" placeholder="Enter image title" required="required">
+					</div>
+					<div class="form-group">	
+						<label for="inputFile">Image</label>
+						<input name="image" type="file" id="image" required="required">
+					</div>
+					<button id="uploadButton" type="submit" class="btn btn-default">Upload</button>
+					<progress style="display: none;"></progress>
+			</form>
+
+			<div class="col-md-6">
+				<a>
+					<img id="uploadedImage" class="img-responsive">
+				</a>
+				
+			</div>
+		</div>
+
+		<div id="carousel-modal" class="modal fade">
+ 			<div class="modal-dialog">
+				<div class="modal-content">
+			 		<div class="modal-header">
+			 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4>Image Carousel</h4>
+			 		</div>
+					<div class="modal-body">
+			 			<div id="myCarousel" class="carousel">
+			 				<div class="carousel-inner">
+			 				</div>
+			 				<a class="carousel-control left" href="#myCarousel" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span></a>
+    						<a class="carousel-control right" href="#myCarousel" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span></a>
+			 			</div>
+			 		</div>
+			 	</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+
+		<!-- jQuery -->
+		<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+		<!-- Example JS -->
+		<script src="js/multipart.js"></script> 	
+	</body>
+</html>
