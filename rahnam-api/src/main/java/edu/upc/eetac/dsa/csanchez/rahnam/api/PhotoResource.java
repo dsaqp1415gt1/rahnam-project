@@ -191,7 +191,7 @@ public class PhotoResource {
 				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
 				photo.setFilename(rs.getString("photoid") + ".png");
-				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
+				photo.setPhotoURL("http://www.gt1.dsa/img/"+ photo.getFilename());
 				
 				photo.setCategories(getCategories(photoid));
 				
