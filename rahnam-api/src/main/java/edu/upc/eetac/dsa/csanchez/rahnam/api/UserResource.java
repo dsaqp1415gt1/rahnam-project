@@ -343,7 +343,6 @@ public class UserResource {
 			throw new BadRequestException("email cannot be null or greater than 20 characters");
 		if (user.getGender().length() > 20)
 			throw new BadRequestException("Gender cannot be null or greater than 20 characters");
-		
 	}
 		
 }
