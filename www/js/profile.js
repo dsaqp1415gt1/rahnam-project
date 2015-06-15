@@ -138,7 +138,7 @@ function getPhotosMain(USERNAME) {
 						'<img class="img-responsive img-hover" src="'+response.photos[k].photoURL+'" alt="">'+
 					'</a>'+	
 					'<p class="p1"><div style="padding-left: 30px" class="col-md-9">'+title+'</div><div style="padding-right: 30px" class="col-md-3">'+
-							'<a href="#"><button><span class="glyphicon glyphicon-pencil" style="vertical-align:middle"></span></button></a></div>'+
+							'<a href="editphoto.html?photoid='+response.photos[k].photoid+'"><button><span class="glyphicon glyphicon-pencil" style="vertical-align:middle"></span></button></a></div>'+
 					'</p>'+
 					'<hr class="h0">'+
 					'<p class="p2">De: <a href="user.html?username='+response.photos[k].username+'">'+response.photos[k].username+'</p>'+
