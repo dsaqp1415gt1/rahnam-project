@@ -127,7 +127,7 @@ function getPhotosMain(username2) {
 		
 			var newimageblock = '<div class="col-md-3"><div class="img_block"><a href="single-photo.html?photoid='+response.photos[k].photoid+'">'+
 				'<img  class="img-responsive img-hover" src="'+response.photos[k].photoURL+'" alt=""></a><div class="row">'+
-				'<p class="p1">'+response.photos[k].title+''+
+				'<p class="p1">'+response.photos[k].title+'</p>'+
 				'<hr class="h0"><p class="p2">De: <a href="#">'+response.photos[k].username+'</a></p></div></div>';
 			
 			if (colcont <= 4){
