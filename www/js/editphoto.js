@@ -1,8 +1,6 @@
 var API_BASE_URL = "http://147.83.7.158:8080/rahnam-api";
 var USERNAME = Cookies.get('username');
 var PASSWORD = Cookies.get('userpass');
-USERNAME = "pau";
-PASSWORD = "pau";
 var idphoto = "";
 
 $.ajaxSetup({
