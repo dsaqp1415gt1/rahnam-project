@@ -68,6 +68,7 @@ $('form#imageformunico').submit(function(e){
 	console.log(formData);
 
 	var URL = API_BASE_URL + '/photos';
+	console.log(URL);
 	$.ajax({
 		url: URL,
 		type: 'POST',
