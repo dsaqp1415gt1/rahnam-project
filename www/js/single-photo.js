@@ -2,6 +2,7 @@ var API_BASE_URL = "http://147.83.7.158:8080/rahnam-api";
 var USERNAME = Cookies.get('username');
 var PASSWORD = Cookies.get('userpass');
 var idphoto = "";
+var author = "";
 
 
 $.ajaxSetup({
@@ -125,7 +126,7 @@ function getPhoto() {
 		'<hr><img class="img-responsive" src="' +photo.photoURL+ '" alt=""><hr>'+
 		'<p class="lead">Descripción: </p>'+'<p>'+description+'</p>');
 		$('#bloqueautor').append('<a href="user.html?username='+photo.username+'"><h4>'+photo.username+'</h4></a><p>Clica en el nombre para ver más fotos</p>');
-			
+		author = photo.username;
 		
 		var cats = data.categories
 		$.each(cats, function(c,v){
@@ -146,11 +147,35 @@ function getPhoto() {
 		
 		$('#bloquedel').append('<button id="del"><h4>Eliminar</h4></button>');
 		
-		
-		
 	})
 			
 }
+
+$("#del").click(function(e) {
+	e.preventDefault();
+	var url = API_BASE_URL + '/photos?photoid=' + idphoto ;
+	console.log(url);
+	if (author != USERNAME){
+		alert("Solo puedes borrar tus fotos");
+	}else{
+	
+	$.ajax({
+		url : url,
+		type : 'DELETE',
+		crossDomain : true,		
+	}).done(function(data, status, jqxhr) {
+	
+		window.location.replace("profile.html");	
+	})
+	.fail(function() {
+		alert("KO");
+	});
+	}
+	
+	
+}
+
+
 	
 	function createComment(comment) {
 	var url = API_BASE_URL + '/photos/photo/' + idphoto + '/comments';
