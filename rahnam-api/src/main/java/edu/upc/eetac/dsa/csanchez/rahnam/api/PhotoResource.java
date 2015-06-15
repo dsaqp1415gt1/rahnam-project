@@ -128,6 +128,7 @@ public class PhotoResource {
 				+ imageData.getFilename());
 		imageData.setCategories(getCategories(uuid.toString()));
 		
+		
 		return imageData;
 	}
 	
@@ -192,7 +193,7 @@ public class PhotoResource {
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
 				photo.setFilename(rs.getString("photoid") + ".png");
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
-				
+				photo.setReference(rs.getInt("reference"));
 				photo.setCategories(getCategories(photoid));
 				
 			}
@@ -322,6 +323,7 @@ public class PhotoResource {
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
 				photo.setFilename(rs.getString("photoid") + ".png");
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
+				photo.setReference(rs.getInt("reference"));
 				
 				photo.setCategories(getCategories(photo.getPhotoid()));
 				images.addPhoto(photo);
@@ -374,6 +376,7 @@ public class PhotoResource {
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
 				photo.setFilename(rs.getString("photoid") + ".png");
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
+				photo.setReference(rs.getInt("reference"));
 				
 				photo.setCategories(getCategories(photo.getPhotoid()));
 				images.addPhoto(photo);
@@ -424,6 +427,7 @@ public class PhotoResource {
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
 				photo.setFilename(rs.getString("photoid") + ".png");
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
+				photo.setReference(rs.getInt("reference"));
 				
 				photo.setCategories(getCategories(photo.getPhotoid()));
 				images.addPhoto(photo);
@@ -804,6 +808,7 @@ public class PhotoResource {
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
 				photo.setFilename(rs.getString("photoid") + ".png");
 				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
+				photo.setReference(rs.getInt("reference"));
 				
 				photo.setCategories(getCategories(photo.getPhotoid()));
 				

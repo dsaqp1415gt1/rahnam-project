@@ -35,6 +35,15 @@ public class Photo {
 		this.links = links;
 	}
 	
+	private int reference;
+	public int getReference() {
+		return reference;
+	}
+
+	public void setReference(int reference) {
+		this.reference = reference;
+	}
+
 	private String photoid;
 	private String username;
 	private String title;
@@ -43,6 +52,8 @@ public class Photo {
 	private long creationTimestamp;
 	private String filename;
 	private String photoURL;
+	
+	
 	
 
 	public String getPhotoid() {

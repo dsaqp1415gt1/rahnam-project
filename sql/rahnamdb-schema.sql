@@ -20,13 +20,15 @@ create table user_roles (
 );
 
 create table photos (
+	reference				int not null auto_increment,
 	photoid					varchar(50) not null primary key,
 	username 				varchar (20) not null,
 	title 					varchar (20),
 	description 			varchar (500),
 	last_modified			timestamp default current_timestamp on update current_timestamp,
 	creationTimestamp 		datetime not null default current_timestamp,
-	foreign key (username) 	references users(username) on delete cascade
+	foreign key (username) 	references users(username) on delete cascade,
+	INDEX (reference)
 );
 
 create table categories (

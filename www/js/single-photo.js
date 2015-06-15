@@ -125,7 +125,7 @@ function getPhoto() {
 		'<hr><img class="img-responsive" src="' +photo.photoURL+ '" alt=""><hr>'+
 		'<p class="lead">Descripción: </p>'+'<p>'+description+'</p>');
 		$('#bloqueautor').append('<a href="user.html?username='+photo.username+'"><h4>'+photo.username+'</h4></a><p>Clica en el nombre para ver más fotos</p>');
-		
+			
 		
 		var cats = data.categories
 		$.each(cats, function(c,v){
@@ -143,6 +143,11 @@ function getPhoto() {
 			}
 			contador++;
 		});
+		
+		$('#bloquedel').append('<button id="del"><h4>Eliminar</h4></button>');
+		
+		
+		
 	})
 			
 }
