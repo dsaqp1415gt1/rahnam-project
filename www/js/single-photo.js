@@ -173,7 +173,7 @@ $("#del").click(function(e) {
 	}
 	
 	
-}
+});
 
 
 	
