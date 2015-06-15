@@ -196,8 +196,7 @@ function updateUserInfo(UpdateProfile) {
 		data : data,
 		
 		}).done(function(data, status, jqxhr) {	
-	
-		window.location.replace = "profile.html";
+		window.location.replace("profile.html");
 				
 	}).fail(function() {
 		alert("KO");
