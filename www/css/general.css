@@ -88,5 +88,10 @@ button {
 	border-radius: 10px;
 }
 
+.whiteblock {
+	background: #FFF;
+	border-radius:10px; 
+
+}
 
 

@@ -122,9 +122,9 @@ function getPhoto() {
 			}
 		
 		$('#title').append(title + ', <small> Subida por <a href="user.html?username='+photo.username+'">'+photo.username+'</a></small>');
-		$('#infophoto').append('<p><i class="fa fa-clock-o"></i> Subida en August 24, 2013 a las 9:00 PM</p>'+
+		$('#infophoto').append('<div class="whiteblock"><p><i class="fa fa-clock-o"></i> Subida en August 24, 2013 a las 9:00 PM</p></div>'+
 		'<hr><img class="img-responsive" src="' +photo.photoURL+ '" alt=""><hr>'+
-		'<p class="lead">Descripción: </p>'+'<p>'+description+'</p>');
+		'<div class="whiteblock"><p class="lead">Descripción: </p>'+'<p>'+description+'</p></div>');
 		$('#bloqueautor').append('<a href="user.html?username='+photo.username+'"><h4>'+photo.username+'</h4></a><p>Clica en el nombre para ver más fotos</p>');
 		author = photo.username;
 		
