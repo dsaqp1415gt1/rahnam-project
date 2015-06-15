@@ -67,8 +67,9 @@ $('form#imageformunico').submit(function(e){
 	var formData = new FormData($('form#imageformunico')[0]);
 	console.log(formData);
 
+	var URL = API_BASE_URL + '/photos';
 	$.ajax({
-		url: API_BASE_URL + '/photos',
+		url: URL,
 		type: 'POST',
 		xhr: function() {  
 	    	var myXhr = $.ajaxSettings.xhr();
