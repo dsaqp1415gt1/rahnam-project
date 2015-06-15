@@ -289,7 +289,7 @@ public class UserResource {
 	@Produces(MediaType2.RAHNAM_API_USER)
 	public User updateUser(@PathParam("username") String username, User user) {
 		
-		validateUpdateUser(user);
+		//validateUpdateUser(user);
 		//validateUser(username);
 		
 		Connection conn = null;
