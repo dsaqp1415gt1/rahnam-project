@@ -145,8 +145,6 @@ function getPhoto() {
 			contador++;
 		});
 		
-		$('#bloquedel').append('<button id="del"><h4>Eliminar</h4></button>');
-		
 	})
 			
 }
@@ -155,24 +153,24 @@ $("#del").click(function(e) {
 	e.preventDefault();
 	var url = API_BASE_URL + '/photos?photoid=' + idphoto ;
 	console.log(url);
+	console.log(author);
+	console.log(USERNAME);
+	
 	if (author != USERNAME){
 		alert("Solo puedes borrar tus fotos");
 	}else{
-	
-	$.ajax({
-		url : url,
-		type : 'DELETE',
-		crossDomain : true,		
-	}).done(function(data, status, jqxhr) {
-	
-		window.location.replace("profile.html");	
-	})
-	.fail(function() {
-		alert("KO");
-	});
+		$.ajax({
+			url : url,
+			type : 'DELETE',
+			crossDomain : true,		
+		}).done(function(data, status, jqxhr) {
+		
+			window.location.replace("profile.html");	
+		})
+		.fail(function() {
+			alert("KO");
+		});
 	}
-	
-	
 });
 
 
