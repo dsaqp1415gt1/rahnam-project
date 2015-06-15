@@ -59,10 +59,6 @@ $("#update").click(function(e) {
 	{
 	UpdateProfile.gender = $("#newgender").val();
 	}
-	if($("#newpass").val() != "")
-	{
-	UpdateProfile.userpass = $("#newpass").val();
-	}
 	console.log(UpdateProfile);
 	
 	updateUserInfo(UpdateProfile);
