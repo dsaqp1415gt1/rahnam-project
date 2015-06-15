@@ -191,7 +191,7 @@ public class PhotoResource {
 				photo.setCreationTimestamp(rs.getTimestamp("creationTimestamp").getTime());
 				photo.setLast_modified(rs.getTimestamp("last_modified").getTime());
 				photo.setFilename(rs.getString("photoid") + ".png");
-				photo.setPhotoURL("http://www.gt1.dsa/img/");
+				photo.setPhotoURL(app.getProperties().get("imgBaseURL")+ photo.getFilename());
 				
 				photo.setCategories(getCategories(photoid));
 				
@@ -248,8 +248,6 @@ public class PhotoResource {
 
 	}
 	
-	
-	
 	@GET
 	@Path("/categories")
 	@Produces(MediaType2.RAHNAM_API_CATEGORY_COLLECTION)
@@ -290,6 +288,8 @@ public class PhotoResource {
 	return categories;
 	}
 
+	
+		
 	
 	@GET
 	@Path("/user/{username}")
