@@ -51,30 +51,19 @@ $("#update").click(function(e) {
 	{
 	UpdateProfile.name = $("#newname").val();
 	}
-	else{	
-	$('#newname').attr('placeholder','Inserte un nombre');		
-	}
 	if($("#newemail").val() != "")
 	{
 	UpdateProfile.email = $("#newemail").val();
-	}
-	else{	
-	$('#newemail').attr('placeholder','Inserte un e-mail');		
 	}
 	if($("#newgender").val() != "")
 	{
 	UpdateProfile.gender = $("#newgender").val();
 	}
-	else{	
-	$('#newgender').attr('placeholder','Inserte su sexo');		
-	}	
 	if($("#newpass").val() != "")
 	{
 	UpdateProfile.userpass = $("#newpass").val();
 	}
-	else{	
-	$('#newpass').attr('placeholder','Inserte una contraseña');		
-	}
+	console.log(UpdateProfile);
 	
 	updateUserInfo(UpdateProfile);
 });
@@ -194,11 +183,10 @@ function updateUserInfo(UpdateProfile) {
 
 	var url = API_BASE_URL + '/users/' + USERNAME;
 	
-	var data = JSON.stringify(USERNAME);
-
+	var data = JSON.stringify(UpdateProfile);
+	console.log(data);
 
 	$.ajax({
-		headers: {'Authorization': "Basic "+ btoa(USERNAME+':'+PASSWORD)},
 		url : url,
 		type : 'PUT',
 		crossDomain : true,
@@ -212,7 +200,7 @@ function updateUserInfo(UpdateProfile) {
 		window.location.replace = "profile.html"
 				
 	}).fail(function() {
-
+		alert("KO");
 	});
 
 }
